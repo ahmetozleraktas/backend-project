@@ -3,3 +3,4 @@ celery
 redis
 yfinance
 djangorestframework
+psycopg2-binary

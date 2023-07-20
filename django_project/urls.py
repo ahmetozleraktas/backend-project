@@ -21,5 +21,5 @@ from stock_price import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('stock_price/', include('stock_price.urls')),
+    path('', include('stock_price.urls')),
 ]
