@@ -81,13 +81,13 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "db",  # set in docker-compose.yml
-        "PORT": 5432,  # default postgres port
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',  # Use the default PostgreSQL user 'postgres'
+        'HOST': 'db',  # Use the service name defined in docker-compose.yml
+        'PORT': '5432',
+        'PASSWORD': 'postgres'
     }
 }
 

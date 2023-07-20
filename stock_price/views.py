@@ -22,7 +22,7 @@ def stock_price(request):
         company = yf.Ticker(company_name)
         # GET TODAYS DATE AND CONVERT IT TO A STRING WITH YYYY-MM-DD FORMAT (YFINANCE EXPECTS THAT FORMAT)
         end_date = datetime.now().strftime('%Y-%m-%d')
-        company_hist = company.history(start='2023-07-01',end=end_date)
+        company_hist = company.history(start='2023-07-015',end=end_date)
         # print(type(company_hist))
         is_saved = save_df_to_db(company_hist, company_name)
         if is_saved is None:
@@ -36,9 +36,10 @@ def stock_price(request):
             return Response({'result':'FAILURE'})
 
     elif request.method == 'POST':
-        # company_name = request.POST['company']
-        company_name = request.data['company']
+
+        company_name = request.data.get('company', None)
         end_date = datetime.now().strftime('%Y-%m-%d')
+        company = yf.Ticker(company_name)
         company_hist = company.history(start='2023-07-01',end=end_date)
         is_saved = save_df_to_db(company_hist, company_name)
         if is_saved is None:
