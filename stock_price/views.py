@@ -23,7 +23,7 @@ def stock_price(request):
         # GET TODAYS DATE AND CONVERT IT TO A STRING WITH YYYY-MM-DD FORMAT (YFINANCE EXPECTS THAT FORMAT)
         end_date = datetime.now().strftime('%Y-%m-%d')
         company_hist = company.history(start='2023-07-01',end=end_date)
-        print(type(company_hist))
+        # print(type(company_hist))
         is_saved = save_df_to_db(company_hist, company_name)
         if is_saved is None:
             # print exist objects columns and values
