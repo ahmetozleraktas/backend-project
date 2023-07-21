@@ -99,6 +99,7 @@ venv/
 */*/*/*/migrations/
 
 # static files
+static/
 */static/
 */*/static/
 */*/*/static/

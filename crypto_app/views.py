@@ -32,7 +32,7 @@ def price(request):
             task, created = PeriodicTask.objects.get_or_create(
                 interval=schedule,
                 name=f'get_price_{symbol}',
-                task='crypto_app.views.get_price',
+                task='crypto_app.tasks.get_crypto_price',
                 args=json.dumps([symbol]),
                 kwargs=json.dumps({}),
             )
@@ -48,8 +48,34 @@ def show_price(request):
             return Response({'result':'NEED SYMBOL TO GET PRICE.'})
         else:
             try:
-                crypto = Crypto.objects.get(symbol=symbol)
-                return Response({'result':crypto.price})
-            except Crypto.DoesNotExist:
+                # get all prices matching with symbol
+                crypto = Crypto.objects.filter(symbol=symbol)
+                # sort by timestamp
+                crypto = crypto.order_by('timestamp')
+
+
+
+
+                price_list = [price for price in crypto.values_list('price', flat=True)]
+
+                # add $ sign to each price
+                price_list = [f'${price}' for price in price_list]
+                
+                return Response({f'result for {symbol}':price_list})
+                
+            except Crypto.DoesNotExist as e:
+                print(e)
                 return Response({'result':'NO PRICE FOUND.'})
             
+
+@api_view(['POST', 'GET'])  # Specify the HTTP methods supported
+@renderer_classes([JSONRenderer])  # Specify the renderers you want here
+def coin_list(request):
+    if request.method == 'GET':
+        try:
+            # get all unique symbols
+            crypto = Crypto.objects.values_list('symbol', flat=True).distinct()
+            return Response({'Coins in database':crypto})
+        except Crypto.DoesNotExist as e:
+            print(e)
+            return Response({'result':'NO COINS FOUND.'})
