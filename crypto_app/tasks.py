@@ -11,17 +11,21 @@ _API_KEY = '2fays/HuwDMPf6MDKchcTA==A0PchcFQX0LOAmQb'
 
 @shared_task
 def get_crypto_price(symbol: str):
-    full_symbol = symbol + _BASE_SYMBOL
-    api_url = _API_URL + full_symbol
-    response = requests.get(api_url, headers={'X-Api-Key': _API_KEY})
-    if response.status_code == requests.codes.ok:
-        response = response.json()
-        # unix timestamp to datetime
-        timestamp = datetime.datetime.fromtimestamp(response['timestamp'])
-        # subtract base symbol from symbol
-        response['symbol'] = response['symbol'][:-len(_BASE_SYMBOL)]
-        crypto = Crypto(symbol=response['symbol'], price=float(response['price']), timestamp=timestamp)
-        crypto.save()
-        return True
-    else:
+    try:
+        full_symbol = symbol + _BASE_SYMBOL
+        api_url = _API_URL + full_symbol
+        response = requests.get(api_url, headers={'X-Api-Key': _API_KEY})
+        if response.status_code == requests.codes.ok:
+            response = response.json()
+            # unix timestamp to datetime
+            timestamp = datetime.datetime.fromtimestamp(response['timestamp'])
+            # subtract base symbol from symbol
+            response['symbol'] = response['symbol'][:-len(_BASE_SYMBOL)]
+            crypto = Crypto(symbol=response['symbol'], price=float(response['price']), timestamp=timestamp)
+            crypto.save()
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(f"Task handling failed: {e}")
         return False
