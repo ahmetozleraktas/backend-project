@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'stock_price'
+    'stock_price',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [

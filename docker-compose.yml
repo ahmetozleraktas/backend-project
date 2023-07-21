@@ -42,6 +42,19 @@ services:
         depends_on:
             - db
             - redis
+    celery-beat:
+        build: .
+        command: celery -A django_project beat -l info
+        volumes:
+            - .:/app
+        environment:
+            - DEBUG=1
+            - DJANGO_ALLOWED_HOSTS=localhost
+            - CELERY_BROKER=redis://redis:6379/0
+            - CELERY_BACKEND=redis://redis:6379/0
+        depends_on:
+            - db
+            - redis
 
 volumes:
     postgres_data:

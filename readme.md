@@ -8,7 +8,7 @@
 
 ## How to run:
 - Clone the repo
-- Run `docker-compose up --build`
+- Run `docker-compose up -d --build`
 - Run `docker-compose exec django python manage.py makemigrations stock_price`
 - Run `docker-compose exec django python manage.py migrate stock_price`
 - Go to [http://localhost:8000/](localhost:8000)
