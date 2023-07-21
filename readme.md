@@ -19,4 +19,5 @@
 - [ ] Add tests
 - [x] Migration to Postgres must be done automatically.
 - [x] Add cron job to update and save stock prices to the database.
-- [ ] Add redis cache for stock prices. 
+- [x] Add redis cache for stock prices (needs to be checked if it works).
+- [ ] Add comments to code.

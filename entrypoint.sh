@@ -2,12 +2,17 @@
 
 set -e
 
-echo "${0}: running migrations."
-python manage.py makemigrations
+until python manage.py makemigrations
+do
+    echo "Waiting for db to be ready..."
+    sleep 5
+done
+
+echo "${0}: applying migrations."
 python manage.py migrate
 
 echo "${0}: collecting static files."
-python manage.py collectstatic
+python manage.py collectstatic --noinput
 
 
 # echo server starting

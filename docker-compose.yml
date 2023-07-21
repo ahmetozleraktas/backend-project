@@ -10,13 +10,10 @@ services:
     redis:
         image: redis:alpine
 
-        
+
     django:
         build: .
-        command:
-            - /bin/sh
-            - '-c'
-            - '/app/entrypoint.sh'
+        entrypoint: /app/entrypoint.sh
         volumes:
             - .:/app
         ports:

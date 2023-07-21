@@ -1,11 +1,10 @@
-from datetime import datetime
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
-import requests
 from .models import Crypto
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 import json
+from django.views.decorators.cache import cache_page
 
 _BASE_SYMBOL = 'USDT'
 _API_KEY = '2fays/HuwDMPf6MDKchcTA==A0PchcFQX0LOAmQb'
@@ -41,6 +40,7 @@ def price(request):
 
 @api_view(['POST', 'GET'])  # Specify the HTTP methods supported
 @renderer_classes([JSONRenderer])  # Specify the renderers you want here
+@cache_page(60 * 15)
 def show_price(request):
     if request.method == 'GET':
         symbol = request.GET.get('symbol', None)
@@ -53,13 +53,7 @@ def show_price(request):
                 # sort by timestamp
                 crypto = crypto.order_by('timestamp')
 
-
-
-
                 price_list = [price for price in crypto.values_list('price', flat=True)]
-
-                # add $ sign to each price
-                price_list = [f'${price}' for price in price_list]
                 
                 return Response({f'result for {symbol}':price_list})
                 
