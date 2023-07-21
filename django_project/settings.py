@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'stock_price',
+    'crypto_app',
     'django_celery_beat',
 ]
 
@@ -81,14 +81,14 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',  # Use the default PostgreSQL user 'postgres'
-        'HOST': 'db',  # Use the service name defined in docker-compose.yml
-        'PORT': '5432',
-        'PASSWORD': 'postgres'
+DATABASES = {    
+   "default": {        
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "db",
+        "PORT": 5432,
     }
 }
 
@@ -127,7 +127,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = os.getenv('STATIC_URL', '/static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

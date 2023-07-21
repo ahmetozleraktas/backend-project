@@ -91,9 +91,3 @@ venv/
 */*.swp
 */*/*.swp
 */*/*/*.swp
-
-# Django migrations
-*/migrations/
-*/*/migrations/
-*/*/*/migrations/
-*/*/*/*/migrations/

@@ -13,14 +13,5 @@ app = Celery('django_project')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-app.conf.beat_schedule = {
-    # Executes every 5 seconds with crontab
-    'add-every-5-seconds': {
-        'task': 'stock_price.tasks.add',
-        'schedule': 5,
-        'args': (16, 16)
-    },
-}
-
 
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

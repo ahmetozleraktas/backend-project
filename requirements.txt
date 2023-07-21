@@ -1,7 +1,7 @@
 Django
 celery
 redis
-yfinance
 djangorestframework
 psycopg2-binary
 django-celery-beat
+requests
