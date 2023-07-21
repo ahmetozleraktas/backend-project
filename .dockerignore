@@ -91,3 +91,15 @@ venv/
 */*.swp
 */*/*.swp
 */*/*/*.swp
+
+# migrations
+*/migrations/
+*/*/migrations/
+*/*/*/migrations/
+*/*/*/*/migrations/
+
+# static files
+*/static/
+*/*/static/
+*/*/*/static/
+*/*/*/*/static/
