@@ -124,3 +124,46 @@ def coin_list(request):
         except Crypto.DoesNotExist as e:
             print(e)
             return Response({'result':'NO COINS FOUND.'})
+    
+# delete coin from database
+@api_view(['POST', 'GET'])  # Specify the HTTP methods supported
+@renderer_classes([JSONRenderer])  # Specify the renderers you want here
+def delete_coin(request):
+    if request.method == 'GET':
+        symbol = request.GET.get('symbol', None)
+        if symbol is None:
+            return Response({'result':'NEED SYMBOL TO DELETE COIN.'})
+        else:
+            try:
+                # delete all prices matching with symbol
+                crypto = Crypto.objects.filter(symbol=symbol)
+                crypto.delete()
+                # delete periodic task
+                if PeriodicTask.objects.filter(name=f'get_price_{symbol}').exists():
+                    task = PeriodicTask.objects.get(name=f'get_price_{symbol}')
+                    task.delete()
+                return Response({'result':'COIN DELETED.'})
+            except Crypto.DoesNotExist as e:
+                print(e)
+                return Response({'result':'NO COIN FOUND.'})
+    if request.method == 'POST':
+        symbol = request.POST.get('symbol', None)
+        if symbol is None:
+            return Response({'result':'NEED SYMBOL TO DELETE COIN.'})
+        else:
+            try:
+                # delete all prices matching with symbol
+                # check if coin exists
+                crypto = Crypto.objects.filter(symbol=symbol)
+                if not crypto.exists():
+                    return Response({'result':'NO COIN FOUND.'})
+                else:
+                    crypto.delete()
+
+                if PeriodicTask.objects.filter(name=f'get_price_{symbol}').exists():
+                    task = PeriodicTask.objects.get(name=f'get_price_{symbol}')
+                    task.delete()
+                return Response({'result':'COIN DELETED.'})
+            except Crypto.DoesNotExist as e:
+                print(e)
+                return Response({'result':'NO COIN FOUND.'})
