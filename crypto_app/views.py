@@ -7,7 +7,7 @@ import json
 from django.views.decorators.cache import cache_page
 
 _BASE_SYMBOL = 'USDT'
-_API_KEY = '2fays/HuwDMPf6MDKchcTA==A0PchcFQX0LOAmQb'
+_API_KEY = 'API_KEY'
 
 @api_view(['POST', 'GET'])  # Specify the HTTP methods supported
 @renderer_classes([JSONRenderer])  # Specify the renderers you want here
